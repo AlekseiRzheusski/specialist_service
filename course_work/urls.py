@@ -26,4 +26,8 @@ urlpatterns = [
     path('',RedirectView.as_view(url = '/specialistservice/', permanent = True)),
 ]
 
+# urlpatterns = [
+#     path('accounts/', include('django.contrib.auth.urls')),
+# ]
+
 

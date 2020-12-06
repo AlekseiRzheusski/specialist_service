@@ -1,6 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 # Create your models here.
+
 
 class City(models.Model):
     """Model representing city"""
@@ -19,16 +20,16 @@ class District(models.Model):
         return self.name
 
 
-class Person(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=50, help_text='Введите имя')
-    last_name = models.CharField(max_length=50, help_text='Введите фамилию')
-    patronymic = models.CharField(max_length=50, help_text = 'Введите отчество')
-    phone = models.CharField(max_length=20)
-    
+class User(AbstractUser):
+    phone = models.CharField(max_length=20,null=True)
+    adress = models.CharField(max_length=50, help_text='Введите адрес места работы', null=True)
+    latitude = models.FloatField(null=True)
+    longtitude = models.FloatField(null=True)
+    profile_pic = models.ImageField(null=True)
+    district = models.ForeignKey(District, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
-
 
 class Specialty(models.Model):
     name = models.CharField(max_length=50)
@@ -39,14 +40,10 @@ class Specialty(models.Model):
 
 class Specialist(models.Model):
     """Model representing information about specialist that extends user"""
-    person = models.OneToOneField(Person, on_delete=models.CASCADE, null=True)
-    adress = models.CharField(max_length=50, help_text='Введите адрес места работы')
-    latitude = models.FloatField()
-    longtitude = models.FloatField()
-    profile_pic = models.ImageField(null=True)
-    district = models.ForeignKey(District, on_delete=models.CASCADE)
+    person = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE)
     works_at_home = models.BooleanField()
+
 
     def __str__(self):
         return f'{self.person.first_name} {self.person.last_name}'
