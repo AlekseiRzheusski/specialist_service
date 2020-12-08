@@ -60,6 +60,10 @@
           </div>
       </ul>
     {% else %}
-        <span><a href="{% url 'login'%}?next={{request.path}}" class="hello-msg">Войти</a>></span>
+
+        <span><a href="{% url 'login'%}?next={{request.path}}" class="hello-msg">Войти</a>
+        <a href="{% url 'register' %}">Зарегистрироваться</a>
+        </span>
+
     {% endif %}
 </nav>
