@@ -15,3 +15,12 @@ def allowed_users(allowed_roles=[]):
 				return HttpResponse('You are not authorized to view this page')
 		return wrapper_func
 	return decorator
+
+def unauthenticated_user(view_func):
+	def wrapper_func(request, *args, **kwargs):
+		if request.user.is_authenticated:
+			return redirect('home')
+		else:
+			return view_func(request, *args, **kwargs)
+
+	return wrapper_func
