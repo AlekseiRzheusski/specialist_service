@@ -6,6 +6,44 @@
       color: #fff;
       margin-right: 20px;
     }
+
+    /* Dropdown Button */
+    .dropbtn {
+      color: white;
+      font-size: 16px;
+      border: none;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {background-color: #ddd;}
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {display: block;}
+
   </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -13,8 +51,14 @@
     <div class="collapse navbar-collapse" id="navbarNav">
     </div>
     {% if user.is_authenticated %}
-        <span class="hello-msg">Пользователь: {{request.user.username}}</span>
-        <span ><a href="{% url 'logout'%}?next={{request.path}}" class="hello-msg">Выйти</a></span>
+
+      <ul class="dropdown">
+        <a href="" class="dropbtn">Пользователь: {{request.user.username}}</a>
+          <div class = "dropdown-content">
+            <a href="">Пользователь</a>
+            <a href="{% url 'logout'%}?next={{request.path}}">Выход</a>
+          </div>
+      </ul>
     {% else %}
         <span><a href="{% url 'login'%}?next={{request.path}}" class="hello-msg">Войти</a>></span>
     {% endif %}

@@ -21,6 +21,7 @@ class District(models.Model):
 
 
 class User(AbstractUser):
+    """Model representing enhanced user"""
     phone = models.CharField(max_length=20,null=True)
     adress = models.CharField(max_length=50, help_text='Введите адрес места работы', null=True)
     latitude = models.FloatField(null=True)
@@ -32,6 +33,7 @@ class User(AbstractUser):
         return f'{self.first_name} {self.last_name}'
 
 class Specialty(models.Model):
+    """Model representing specialty"""
     name = models.CharField(max_length=50)
 
     def __str__(self):

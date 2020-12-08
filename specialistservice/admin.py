@@ -7,6 +7,7 @@ from .forms import CustomUserCreationForm
 
 
 class CustomUserAdmin(UserAdmin):
+    """Custom user form page for change user"""
     model = User
     add_form = CustomUserCreationForm
     fieldsets = (
