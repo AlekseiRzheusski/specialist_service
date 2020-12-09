@@ -18,7 +18,7 @@ class User(AbstractUser):
     house = models.IntegerField(null=True)
     latitude = models.FloatField(null=True)
     longtitude = models.FloatField(null=True)
-    profile_pic = models.ImageField(null=True)
+    profile_pic = models.ImageField(default="default-user-image.png", null=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -38,6 +38,9 @@ class Specialist(models.Model):
     person = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE)
     works_at_home = models.BooleanField()
+
+    class Meta:
+        permissions = (('can_update_specialist_info','Set new specialist info'),('can_become_specialist', 'Can become specialist'))
 
 
     def __str__(self):
