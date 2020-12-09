@@ -55,7 +55,7 @@
       <ul class="dropdown">
         <a href="" class="dropbtn">Пользователь: {{request.user.username}}</a>
           <div class = "dropdown-content">
-            <a href="">Пользователь</a>
+            <a href="{% url 'userupdate' %}">Пользователь</a>
             <a href="{% url 'logout'%}?next={{request.path}}">Выход</a>
           </div>
       </ul>
