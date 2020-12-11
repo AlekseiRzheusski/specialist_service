@@ -1,0 +1,64 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+
+
+<br>
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h3 style="text-align: center">{{ specialist.person.first_name }}</h3>
+            <hr>
+            <h3 style="text-align: center">{{ specialist.person.last_name }}</h3>
+      <img class="profile-pic" src="{{specialist.person.profile_pic.url}}" >
+      <hr>
+
+		
+		</div>
+	</div>
+  <div>
+        <table>
+              <tr>
+                <td>Email: </td>
+                <td>{{ specialist.person.email }}</td>
+              </tr>
+              <tr>
+                <td>Телефон: </td>
+                <td>{{ specialist.person.phone }}</td>
+              </tr>
+              <tr>
+                <td>Адрес: </td>
+                <td>{{ specialist.person.street }} {{ specialist.person.house }}, город {{ specialist.person.city }}</td>
+              </tr>
+              <tr>
+                <td>Специальность:</td>
+                <td>{{ specialist.specialty }}</td>
+              </tr>
+              <tr>
+                <td>Выезд к клиенту</td>
+                <td>{{ specialist.departure_to_client }}</td>
+              </tr>
+        </table>
+    <div>
+        <hr>
+        <h3>О себе</h3>
+        <Br>
+        <h4>{{ specialist.about }}</h4>
+    </div>
+  </div>
+
+</br>
+
+{{form.errors}}
+{{ form.non_field_errors }}
+{% endblock %}

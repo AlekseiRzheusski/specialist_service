@@ -16,10 +16,10 @@ class UserRegistration(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
-class SpecialistCreation(ModelForm):
+class SpecialistForm(ModelForm):
     class Meta:
         model = Specialist
-        fields = []
+        fields = ['specialty', 'departure_to_client', 'about' ]
 
 class UserUpdateForm(ModelForm):
 

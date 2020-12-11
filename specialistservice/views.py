@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import Http404
 import folium
-from .forms import UserRegistration, UserUpdateForm
+from django.views import generic
+from .forms import UserRegistration, UserUpdateForm, SpecialistForm
 from .decorators import unauthenticated_user, allowed_users
-from .models import User
+from .models import User, Specialist
 from .function import get_latlong
 from django import forms
 
@@ -38,12 +40,12 @@ def user_update_page(request):
 
     lat = user.latitude
     lon = user.longtitude
+    print(lat,lon)
 
 
-
-    map = folium.Map(width=800, height = 500, location=[53.8843138,27.3131922])
+    map = folium.Map(width=400, height = 250, location=[53.8843138,27.3131922])
     if lat is not None or lon is not None:
-        folium.Marker([user.latitude,user.longtitude], tooltip='Your location').add_to(map)
+        folium.Marker([lat,lon], tooltip='Your location').add_to(map)
     map = map._repr_html_()
 
     form = UserUpdateForm(instance = user)
@@ -76,15 +78,43 @@ def user_update_page(request):
 def make_specialist(request):
     user = request.user
     print(user.username)
+    
     specialist_group = Group.objects.get(name='specialist')
     customer_group = Group.objects.get(name='customer')
     customer_group.user_set.remove(user)
     specialist_group.user_set.add(user)
-    return redirect('userupdate')
+
+    specialist = Specialist(person = user)
+    specialist.save()
+    return redirect('specialistupdate')
 
 
 @login_required
 @allowed_users(allowed_roles=['specialist'])
 def specialist_update_page(request):
-    pass
+    specialist = request.user.specialist
+    print(specialist.person)
+    form = SpecialistForm(instance=specialist)
+    if request.method == 'POST':
+        form = SpecialistForm(request.POST, request.FILES,instance=specialist)
+        if form.is_valid():
+            form.save()
+
+    return render(request,'specialistservice/specialist_update_page.html',{'form':form})
+
+
+def specialist_detail_view(request, pk):
+    try:
+        specialist = Specialist.objects.get(pk=pk)
+    except Specialist.DoesNotExist:
+        raise Http404("Такого специалиста не существует")
+    context = {}
+    context['specialist'] = specialist
+    return render(request,'specialistservice/specialist_detail_page.html', context)
+
+
+class SpecialistListView(generic.ListView):
+    model = Specialist
+    paginate_by = 10
+
 

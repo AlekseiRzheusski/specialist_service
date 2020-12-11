@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div>
+    <form method="POST">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>{{ form.specialty.label_tag }}</td>
+                <td>{{ form.specialty }}</td>
+              </tr>
+              <tr>
+                <td>{{ form.departure_to_client.label_tag }}</td>
+                <td>{{ form.departure_to_client }}</td>
+              </tr>
+              <tr>
+                <td>{{ form.about.label_tag }}</td>
+                <td>{{ form.about }}</td>
+              </tr>
+        </table>
+        <input type="submit" value="Update" />
+    </form>
+</div>
+{{form.errors}}
+{% endblock %}

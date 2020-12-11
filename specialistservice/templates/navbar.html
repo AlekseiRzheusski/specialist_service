@@ -57,7 +57,7 @@
           <div class = "dropdown-content">
             <a href="{% url 'userupdate' %}">Пользователь</a>
             {% if perms.specialistservice.can_update_specialist_info %}
-              <a>Специалист</a>
+              <a href="{% url 'specialistupdate' %}">Специалист</a>
             {% endif %}
             <a href="{% url 'logout'%}?next={{request.path}}">Выход</a>
           </div>

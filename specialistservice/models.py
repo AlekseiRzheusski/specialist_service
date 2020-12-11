@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.urls import reverse
 # Create your models here.
 
 
@@ -36,8 +37,9 @@ class Specialty(models.Model):
 class Specialist(models.Model):
     """Model representing information about specialist that extends user"""
     person = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
-    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE)
-    works_at_home = models.BooleanField()
+    specialty = models.ForeignKey(Specialty, on_delete=models.CASCADE, null = True)
+    departure_to_client = models.BooleanField(null=True)
+    about = models.TextField(max_length=1000, null=True)
 
     class Meta:
         permissions = (('can_update_specialist_info','Set new specialist info'),('can_become_specialist', 'Can become specialist'))
@@ -45,6 +47,9 @@ class Specialist(models.Model):
 
     def __str__(self):
         return f'{self.person.first_name} {self.person.last_name}'
+
+    def get_absolute_url(self):
+        return reverse('specialist-detail', args=[str(self.id)])
 
 
 class Comment(models.Model):
