@@ -55,28 +55,25 @@ def user_update_page(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, request.FILES,instance=user)
         if form.is_valid():
-            print(phone_match(form['city'].value()))
-            if phone_match(form['city'].value()):
-                city = form['city'].value()
-                street = form['street'].value()
-                house = form['house'].value()
+            city = form['city'].value()
+            street = form['street'].value()
+            house = form['house'].value()
 
-                adress = f'{house}, улица {street}, {city}'
+            adress = f'{house}, улица {street}, {city}'
 
-                print(adress)
+            print(adress)
 
-                location = get_latlong(adress)
+            location = get_latlong(adress)
 
-                if location is None:
-                    messages.info(request, 'Проверьте введенный адрес')
+            if location is None:
+                messages.info(request, 'Проверьте введенный адрес')
 
-                else:
-                    upd_user = form.save()
-                    upd_user.latitude = location.latitude
-                    upd_user.longtitude = location.longitude
-                    upd_user.save()
             else:
-                messages.info(request, 'Проверьте введенный телефон')
+                upd_user = form.save()
+                upd_user.latitude = location.latitude
+                upd_user.longtitude = location.longitude
+                upd_user.save()
+
 
     return render(request, 'specialistservice/user_update_page.html', {'form':form, 'map':map})
 
@@ -133,7 +130,7 @@ def specialist_detail_view(request, pk):
 
         map = map._repr_html_()
 
-    print(request.user)
+    # print(request.user)
 
 
     if request.user.is_authenticated:
@@ -145,7 +142,7 @@ def specialist_detail_view(request, pk):
                 form = CommentForm(request.POST)
                 if form.is_valid():
                     comment_text = form['comment'].value()
-                    print(request.user)
+                    # print(request.user)
                     comment = Comment(specialist=specialist,user=request.user,comment=comment_text)
                     comment.save()
 
@@ -170,3 +167,10 @@ class SpecialistListView(generic.ListView):
         return object_list
 
 
+def add_request(request,pk):
+    try:
+        specialist = Specialist.objects.get(pk=pk)
+    except Specialist.DoesNotExist:
+        raise Http404("Такого специалиста не существует")
+    print(specialist)
+    return redirect('specialist-detail', pk=pk)

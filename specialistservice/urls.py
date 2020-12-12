@@ -9,5 +9,6 @@ urlpatterns = [
     path('makespecialist/', views.make_specialist, name = 'makespecialist'),
     path('updatespecialist',views.specialist_update_page, name = 'specialistupdate'),
     path('specialists/', views.SpecialistListView.as_view(), name = 'specialists'),
-    path('specialist1/<int:pk>', views.specialist_detail_view, name='specialist-detail')
+    path('specialist1/<int:pk>', views.specialist_detail_view, name='specialist-detail'),
+    path('addrequest/<int:pk>', views.add_request, name='add-request')
 ]

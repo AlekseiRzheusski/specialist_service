@@ -60,3 +60,9 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.user.username} {self.specialist.person.username}'   
+
+
+class Request(models.Model):
+    """Model representing request to work to specialist"""
+    specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

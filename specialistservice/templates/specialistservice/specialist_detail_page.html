@@ -59,6 +59,13 @@
         <Br>
         <textarea readonly="readonly" style="width: 460px;" rows="10">{{ specialist.about }}</textarea>
     </div>
+    <div>
+      {% if user.is_authenticated %}
+        {% if user.specialist.id != specialist.id %}
+          <a href="{% url 'add-request' pk=specialist.id %}">Оставить заявку</a>
+        {% endif %}
+      {% endif %}
+    </div>
     <br>
         <div>
           {{ map|safe }}
