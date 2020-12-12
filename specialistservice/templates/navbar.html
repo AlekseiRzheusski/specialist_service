@@ -59,6 +59,8 @@
             <a href="{% url 'userupdate' %}">Пользователь</a>
             {% if perms.specialistservice.can_update_specialist_info %}
               <a href="{% url 'specialistupdate' %}">Специалист</a>
+              <a href="{% url 'request-list' %}">Запросы</a>
+
             {% endif %}
             <a href="{% url 'logout'%}?next={{request.path}}">Выход</a>
           </div>

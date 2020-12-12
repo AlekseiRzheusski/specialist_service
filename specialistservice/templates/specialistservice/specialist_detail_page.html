@@ -45,12 +45,13 @@
                 <td>{{ specialist.specialty }}</td>
               </tr>
               <tr>
-                <td>Выезд к клиенту</td>
-                <td>{{ specialist.departure_to_client }}</td>
+                <td>Расстояние</td>
+                <td>{{ distance }} км</td>
               </tr>
               <tr>
-                  <td>Расстояние</td>
-                  <td>{{ distance }} км</td>
+                {% if specialist.departure_to_client == True %}
+                  <td>Возможен выезд к клиенту</td>
+                {% endif %}
               </tr>
         </table>
     <div>
@@ -61,7 +62,7 @@
     </div>
     <div>
       {% if user.is_authenticated %}
-        {% if user.specialist.id != specialist.id %}
+        {% if user.id != specialist.person.id %}
           <a href="{% url 'add-request' pk=specialist.id %}">Оставить заявку</a>
         {% endif %}
       {% endif %}
@@ -78,7 +79,7 @@
 </div>
 <div class="row">
   {% if user.is_authenticated %}
-  {% if user.specialist.id == specialist.id %}
+  {% if user.id == specialist.person.id %}
   <h3>{{ form }}</h3>
   {% else %}
   <div>

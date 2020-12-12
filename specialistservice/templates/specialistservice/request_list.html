@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if request_list %}
+    <ul>
+
+      {% for tmp_request in request_list %}
+      <li>
+        Пользователь <a href="{{ tmp_request.user.get_absolute_url }}"> {{ tmp_request.user.username }}</a> хочет с вами сотрудничать (<a href="{% url 'delete-request' pk=tmp_request.id %}">Удалить</a>  )
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+      <p>У вас нет запросов на сотрудничество</p>
+    {% endif %}       
+{% endblock %}

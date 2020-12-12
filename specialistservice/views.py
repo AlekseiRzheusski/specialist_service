@@ -9,7 +9,7 @@ from django.db.models import Count
 from django.views import generic
 from .forms import UserRegistration, UserUpdateForm, SpecialistForm, CommentForm
 from .decorators import unauthenticated_user, allowed_users
-from .models import User, Specialist, Comment
+from .models import User, Specialist, Comment, Request
 from .function import get_latlong, get_distance, phone_match
 from django import forms
 
@@ -134,7 +134,7 @@ def specialist_detail_view(request, pk):
 
 
     if request.user.is_authenticated:
-        if request.user.specialist.id == specialist.id:
+        if request.user.id == specialist.person.id:
             form_comment = 'Вы не можете оставлять комментарии на своей странице'
         else:
             form_comment = CommentForm()
@@ -172,5 +172,25 @@ def add_request(request,pk):
         specialist = Specialist.objects.get(pk=pk)
     except Specialist.DoesNotExist:
         raise Http404("Такого специалиста не существует")
-    print(specialist)
+    new_request = Request(specialist=specialist,user=request.user) 
+    new_request.save()
     return redirect('specialist-detail', pk=pk)
+
+class RequestsListView(generic.ListView):
+    model = Request
+
+    def get_queryset(self):
+        object_list = Request.objects.filter(specialist__person__id = self.request.user.id)
+        return object_list
+
+def delete_request(request,pk):
+    try:
+        del_request = Request.objects.get(pk=pk)
+    except Request.DoesNotExist:
+        raise Http404("Такого специалиста не существует")
+    del_request.delete()
+    return redirect('request-list')
+
+
+class UserDetailView(generic.DetailView):
+    model = User

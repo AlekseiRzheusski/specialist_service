@@ -25,6 +25,9 @@ class User(AbstractUser):
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 
+    def get_absolute_url(self):
+        return reverse('user-detail', args=[str(self.id)])
+
 
 class Specialty(models.Model):
     """Model representing specialty"""
