@@ -55,7 +55,8 @@ class Specialist(models.Model):
 class Comment(models.Model):
     """Model representing comments by users"""
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment = models.TextField(max_length=1000,help_text="Введите комментарий")
 
-    
+    def __str__(self):
+        return f'{self.user.username} {self.specialist.person.username}'   

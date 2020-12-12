@@ -30,7 +30,7 @@
 		</div>
 	</div>
   <div>
-    <form method="POST">
+    <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
               <tr>
@@ -60,6 +60,10 @@
               <tr>
                 <td>{{ form.city.label_tag }}</td>
                 <td>{{ form.city }}</td>
+              </tr>
+              <tr>
+                <td>Фото профиля</td>
+                <td>{{form.profile_pic}}</td>
               </tr>
         </table>
         <input type="submit" value="Update" />
