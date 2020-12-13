@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import Http404
+from django.db.models import Q
 import folium
 from django.db.models import Count
 from django.views import generic
@@ -165,6 +166,21 @@ class SpecialistListView(generic.ListView):
         else:
             object_list = Specialist.objects.all()
         return object_list
+
+
+class SearchSpecialistListView(generic.ListView):
+    model = Specialist
+    paginate_by = 10
+    template_name='specialist_list.html'
+
+    def get_queryset(self): 
+        query = self.request.GET.get('q')
+        object_list = Specialist.objects.filter(
+            Q(specialty__name__icontains=query) | Q(about__icontains=query) | Q(person__first_name__icontains=query) | Q(person__last_name__icontains=query)
+        )
+        return object_list
+
+
 
 
 def add_request(request,pk):
