@@ -13,5 +13,5 @@ def get_distance(user_latlon,specialist_latlon):
     return dist
 
 def phone_match(phone):
-    return re.fullmatch(r'/^(\s*)?(\+)?([- _():=+]?\d[- _():=+]?){10,14}(\s*)?$/', '+1-541-754-3010')
+    return re.match(r'^((8|\+375)[\- ]?)?(\(?\d{2}\)?[\- ]?)?[\d\- ]{7,10}$', phone)
 

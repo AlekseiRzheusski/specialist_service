@@ -56,24 +56,28 @@ def user_update_page(request):
     if request.method == 'POST':
         form = UserUpdateForm(request.POST, request.FILES,instance=user)
         if form.is_valid():
-            city = form['city'].value()
-            street = form['street'].value()
-            house = form['house'].value()
+            if phone_match(form['phone'].value()) is not None:
+                city = form['city'].value()
+                street = form['street'].value()
+                house = form['house'].value()
 
-            adress = f'{house}, улица {street}, {city}'
+                adress = f'{house}, улица {street}, {city}'
 
-            print(adress)
+                print(adress)
 
-            location = get_latlong(adress)
+                location = get_latlong(adress)
 
-            if location is None:
-                messages.info(request, 'Проверьте введенный адрес')
+                if location is None:
+                    messages.info(request, 'Проверьте введенный адрес')
 
+                else:
+                    upd_user = form.save()
+                    upd_user.latitude = location.latitude
+                    upd_user.longtitude = location.longitude
+                    upd_user.save()
             else:
-                upd_user = form.save()
-                upd_user.latitude = location.latitude
-                upd_user.longtitude = location.longitude
-                upd_user.save()
+                messages.info(request, 'Проверьте введенный номер телефона')
+
 
 
     return render(request, 'specialistservice/user_update_page.html', {'form':form, 'map':map})
@@ -157,7 +161,7 @@ def specialist_detail_view(request, pk):
 
 class SpecialistListView(generic.ListView):
     model = Specialist
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self): # new
         print(self.request.user)
@@ -170,7 +174,7 @@ class SpecialistListView(generic.ListView):
 
 class SearchSpecialistListView(generic.ListView):
     model = Specialist
-    paginate_by = 10
+    paginate_by = 5
     template_name='specialist_list.html'
 
     def get_queryset(self): 

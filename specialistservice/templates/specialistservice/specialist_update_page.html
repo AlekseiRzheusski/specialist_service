@@ -6,19 +6,19 @@
         {% csrf_token %}
         <table>
             <tr>
-                <td>{{ form.specialty.label_tag }}</td>
+                <td>Специальность: </td>
                 <td>{{ form.specialty }}</td>
               </tr>
               <tr>
-                <td>{{ form.departure_to_client.label_tag }}</td>
+                <td>Выезд к клиенту: </td>
                 <td>{{ form.departure_to_client }}</td>
               </tr>
               <tr>
-                <td>{{ form.about.label_tag }}</td>
+                <td>О себе: </td>
                 <td>{{ form.about }}</td>
               </tr>
         </table>
-        <input type="submit" value="Update" />
+        <input type="submit" value="Обновить" />
     </form>
 </div>
 {{form.errors}}
