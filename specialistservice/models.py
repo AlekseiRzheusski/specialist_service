@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
+from .function import path_and_rename
 # Create your models here.
 
 
@@ -19,7 +20,7 @@ class User(AbstractUser):
     house = models.IntegerField(null=True)
     latitude = models.FloatField(null=True)
     longtitude = models.FloatField(null=True)
-    profile_pic = models.ImageField(default="default-user-image.png", null=True)
+    profile_pic = models.ImageField(default="default-user-image.png", null=True, upload_to = path_and_rename)
     city = models.ForeignKey(City, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
