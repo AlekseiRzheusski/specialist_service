@@ -45,7 +45,7 @@
     .dropdown:hover .dropdown-content {display: block;}
 
   </style>
-
+{% load specialistservice_extra %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="hello-msg" href="{% url 'index' %}">Specialist Service</a>
     <a class="hello-msg" href="{% url 'specialists' %}">Специалисты в вашем городе</a>
@@ -60,7 +60,7 @@
         <a href="" class="dropbtn">Пользователь: {{request.user.username}}</a>
           <div class = "dropdown-content">
             <a href="{% url 'userupdate' %}">Пользователь</a>
-            {% if perms.specialistservice.can_update_specialist_info %}
+            {% if request.user|has_group:"specialist" %}
               <a href="{% url 'specialistupdate' %}">Специалист</a>
               <a href="{% url 'request-list' %}">Запросы</a>
 

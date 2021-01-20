@@ -13,11 +13,12 @@
 
 
 <br>
+{% load specialistservice_extra %}
 
 <div class="row">
 	<div class="col-md-3">
 		<div class="card card-body">
-      {% if perms.specialistservice.can_become_specialist %}
+      {% if request.user|has_group:"customer" %}
         <a href="{% url 'makespecialist' %}">Стать специалистом</a>
       {% endif %}
 			<hr>
