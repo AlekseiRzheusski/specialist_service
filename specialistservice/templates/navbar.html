@@ -65,6 +65,9 @@
               <a href="{% url 'request-list' %}">Запросы</a>
 
             {% endif %}
+            <a href="{% url 'notification-list' %}">Уведомления</a>
+            <a href="{% url 'room-list' %}">Сообщения</a>
+
             <a href="{% url 'logout'%}?next={{request.path}}">Выход</a>
           </div>
       </ul>

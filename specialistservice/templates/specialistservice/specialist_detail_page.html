@@ -67,6 +67,13 @@
         {% endif %}
       {% endif %}
     </div>
+    <div>
+      {% if user.is_authenticated %}
+        {% if user.id != specialist.person.id %}
+          <a href="{% url 'room_search' username=specialist.person.username %}">Написать сообщение</a>
+        {% endif %}
+      {% endif %}
+    </div>
     <br>
         <div>
           {{ map|safe }}

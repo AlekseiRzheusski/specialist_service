@@ -2,9 +2,7 @@ import geopy
 from django import forms
 import geopy.distance
 import re
-from django.utils.deconstruct import deconstructible
-import os
-from uuid import uuid4
+from .models import PrivateRoom, Message
 
 
 def get_latlong(adress):
@@ -19,19 +17,10 @@ def get_distance(user_latlon,specialist_latlon):
 def phone_match(phone):
     return re.match(r'^((8|\+375)[\- ]?)?(\(?\d{2}\)?[\- ]?)?[\d\- ]{7,10}$', phone)
 
-@deconstructible
-class PathAndRename(object):
 
-    def __init__(self, sub_path):
-        self.path = sub_path
-
-    def __call__(self, instance, filename):
-        ext = filename.split('.')[-1]
-        if instance.username:
-            filename = '{}.{}'.format(instance.username, ext)
-        if os.path.exists(os.path.join(self.path, filename)):
-            print(os.path.join(self.path, filename))
-            os.remove(os.path.join(self.path, filename))
-        return os.path.join(self.path, filename)
-
-path_and_rename = PathAndRename("./account_images")
+def get_messages(private_room_id):
+    try:
+        messages = Message.objects.filter(private_room__room_name=private_room_id)
+    except Message.DoesNotExist:
+        print('no messages')
+    return messages.order_by('timestamp').all()

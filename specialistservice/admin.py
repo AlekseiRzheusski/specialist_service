@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import City, Specialty, Specialist, Comment
+from .models import City, Specialty, Specialist, Comment, PrivateRoom, Message, Notification
 from .models import User
 from .forms import CustomUserCreationForm
 # Register your models here.
@@ -32,3 +32,6 @@ admin.site.register(Specialty)
 admin.site.register(Specialist)
 admin.site.register(Comment)
 admin.site.register(User, CustomUserAdmin)
+admin.site.register(PrivateRoom)
+admin.site.register(Message)
+admin.site.register(Notification)

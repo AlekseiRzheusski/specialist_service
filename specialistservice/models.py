@@ -1,13 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
-from .function import path_and_rename
+from .decorators import path_and_rename
 # Create your models here.
 
 
 class City(models.Model):
     """Model representing city"""
     name = models.CharField(max_length=20, primary_key=True)
+
+    class Meta:
+        verbose_name_plural = "cities"
 
     def __str__(self):
         return self.name
@@ -33,6 +36,9 @@ class User(AbstractUser):
 class Specialty(models.Model):
     """Model representing specialty"""
     name = models.CharField(max_length=50)
+
+    class Meta:
+        verbose_name_plural = "specialties"
 
     def __str__(self):
         return self.name
@@ -69,4 +75,25 @@ class Comment(models.Model):
 class Request(models.Model):
     """Model representing request to work to specialist"""
     specialist = models.ForeignKey(Specialist, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
+class PrivateRoom(models.Model):
+    first_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creator_of_room',related_query_name='creators_of_rooms')
+    second_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    room_name = models.CharField(max_length=100, unique=True)
+
+
+class Message(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    private_room = models.ForeignKey(PrivateRoom,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content
+
+
+class Notification(models.Model):
+    Message = models.ForeignKey(Message, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

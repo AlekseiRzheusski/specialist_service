@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'specialistservice.apps.SpecialistserviceConfig',
+    'channels',
+
 ]
 
 MIDDLEWARE = [
@@ -129,3 +131,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+
+ASGI_APPLICATION = 'course_work.asgi.application'
+
+ASGI_APPLICATION = 'course_work.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}

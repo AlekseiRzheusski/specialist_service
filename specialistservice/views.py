@@ -10,7 +10,7 @@ from django.db.models import Count
 from django.views import generic
 from .forms import UserRegistration, UserUpdateForm, SpecialistForm, CommentForm
 from .decorators import unauthenticated_user, allowed_users
-from .models import User, Specialist, Comment, Request
+from .models import User, Specialist, Comment, Request, Notification, PrivateRoom
 from .function import get_latlong, get_distance, phone_match
 from django import forms
 
@@ -187,7 +187,7 @@ class SearchSpecialistListView(generic.ListView):
 
 
 
-def add_request(request,pk):
+def add_request(request, pk):
     try:
         specialist = Specialist.objects.get(pk=pk)
     except Specialist.DoesNotExist:
@@ -203,14 +203,71 @@ class RequestsListView(generic.ListView):
         object_list = Request.objects.filter(specialist__person__id = self.request.user.id)
         return object_list
 
-def delete_request(request,pk):
+@login_required
+def delete_request(request, pk):
     try:
         del_request = Request.objects.get(pk=pk)
     except Request.DoesNotExist:
-        raise Http404("Такого специалиста не существует")
+        raise Http404("Такого не существует")
     del_request.delete()
     return redirect('request-list')
 
 
 class UserDetailView(generic.DetailView):
     model = User
+
+
+@login_required
+def room_search(request, username):
+    print(request.user.username)
+    usernames = [request.user.username, username]
+    usernames.sort()
+    room_name = '_'.join(usernames)
+    if not PrivateRoom.objects.filter(room_name=room_name).exists():
+        print('create:'+room_name)
+        private_room = PrivateRoom(first_user = request.user,second_user=User.objects.get(username=username),room_name=room_name)
+        private_room.save()
+    return redirect('room', room_name=room_name)
+
+@login_required
+def room(request, room_name):
+    if not PrivateRoom.objects.filter(room_name=room_name):
+        print('room doesnt exist')
+        return redirect('index')
+    tmp_room = PrivateRoom.objects.get(room_name=room_name)
+    print(tmp_room.first_user.username+"     "+tmp_room.second_user.username)
+    if request.user == tmp_room.first_user or request.user == tmp_room.second_user:
+        if request.user == tmp_room.first_user:
+            recipient = tmp_room.second_user
+        elif request.user == tmp_room.second_user:
+            recipient = tmp_room.first_user
+        return render(request, 'chat/room.html', {'room_name': room_name, 'recipient_id': recipient.id})
+    print('no permission')
+    return redirect('index')
+
+class NotificationsListView(generic.ListView):
+    model = Notification
+
+    def get_queryset(self):
+        object_list = Notification.objects.filter(user__id = self.request.user.id)
+        return object_list
+
+@login_required
+def delete_notification(request, pk):
+    try:
+        del_notification = Notification.objects.get(pk=pk)
+    except Notification.DoesNotExist:
+        raise Http404("Такого не существует")
+    del_notification.delete()
+    return redirect('notification-list')
+
+@login_required
+def room_list(request):
+    object_list = PrivateRoom.objects.filter(Q(first_user=request.user) | Q(second_user=request.user))
+    user_list = []
+    for tmp_room in object_list:
+        if request.user == tmp_room.first_user:
+            user_list.append(tmp_room.second_user)
+        elif request.user == tmp_room.second_user:
+            user_list.append(tmp_room.first_user)
+    return render(request,'specialistservice/room_list.html',{'user_list':user_list})
