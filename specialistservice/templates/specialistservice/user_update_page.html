@@ -3,83 +3,84 @@
 {% block content %}
 
 <style>
-	.profile-pic{
-		max-width: 200px;
-		max-height:200px;
-		margin: 0 auto;
-		border-radius: 50%;
-	}
+  .profile-pic {
+    max-width: 200px;
+    max-height: 200px;
+    margin: 0 auto;
+    border-radius: 50%;
+  }
 </style>
 
 
 <br>
 {% load specialistservice_extra %}
+<div class="container">
 
-<div class="row">
-	<div class="col-md-3">
-		<div class="card card-body">
-      {% if request.user|has_group:"customer" %}
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card card-body">
+        {% if request.user|has_group:"customer" %}
         <a href="{% url 'makespecialist' %}">Стать специалистом</a>
-      {% endif %}
-			<hr>
-			<h3 style="text-align: center">Настройка аккаунта</h3>
-			<hr>
-      <img class="profile-pic" src="{{request.user.profile_pic.url}}" >
-      <hr>
+        {% endif %}
+        <hr>
+        <h3 style="text-align: center">Настройка аккаунта</h3>
+        <hr>
+        <img class="profile-pic" src="{{request.user.profile_pic.url}}">
+        <hr>
 
-		
-		</div>
-	</div>
-  <div>
-    <form method="POST" action="" enctype="multipart/form-data">
+
+      </div>
+    </div>
+    <div>
+      <form method="POST" action="" enctype="multipart/form-data">
         {% csrf_token %}
         <table>
-              <tr>
-                <td>Email</td>
-                <td>{{ form.email }}</td>
-              </tr>
-              <tr>
-                <td>Имя: </td>
-                <td>{{ form.first_name }}</td>
-              </tr>
-              <tr>
-                <td>Фамилия: </td>
-                <td>{{ form.last_name }}</td>
-              </tr>
-              <tr>
-                <td>Номер телефона: </td>
-                <td>{{ form.phone }}</td>
-              </tr>
-              <tr>
-                <td>Улица: </td>
-                <td>{{ form.street }}</td>
-              </tr>
-              <tr>
-                <td>Номер дома: </td>
-                <td>{{ form.house }}</td>
-              </tr>
-              <tr>
-                <td>Город: </td>
-                <td>{{ form.city }}</td>
-              </tr>
-              <tr>
-                <td>Фото профиля</td>
-                <td>{{form.profile_pic}}</td>
-              </tr>
+          <tr>
+            <td>Email</td>
+            <td>{{ form.email }}</td>
+          </tr>
+          <tr>
+            <td>Имя: </td>
+            <td>{{ form.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Фамилия: </td>
+            <td>{{ form.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Номер телефона: </td>
+            <td>{{ form.phone }}</td>
+          </tr>
+          <tr>
+            <td>Улица: </td>
+            <td>{{ form.street }}</td>
+          </tr>
+          <tr>
+            <td>Номер дома: </td>
+            <td>{{ form.house }}</td>
+          </tr>
+          <tr>
+            <td>Город: </td>
+            <td>{{ form.city }}</td>
+          </tr>
+          <tr>
+            <td>Фото профиля</td>
+            <td>{{form.profile_pic}}</td>
+          </tr>
         </table>
         <input type="submit" value="Обновить" />
         {% for message in messages %}
-					<p id="messages">{{message}}</p>
+        <p id="messages">{{message}}</p>
         {% endfor %}
-    </form>
-    <Br>
-    <div>
-      {{ map|safe }}
+      </form>
+      <Br>
+      <div>
+        {{ map|safe }}
+      </div>
     </div>
+
+    </br>
   </div>
-
-</br>
-
-{{form.errors}}
-{{ form.non_field_errors }}
-{% endblock %}
+  {{form.errors}}
+  {{ form.non_field_errors }}
+  {% endblock %}

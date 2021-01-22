@@ -1,25 +1,28 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-<div>
+<div class="container">
+
+  <div>
     <form method="POST">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td>Специальность: </td>
-                <td>{{ form.specialty }}</td>
-              </tr>
-              <tr>
-                <td>Выезд к клиенту: </td>
-                <td>{{ form.departure_to_client }}</td>
-              </tr>
-              <tr>
-                <td>О себе: </td>
-                <td>{{ form.about }}</td>
-              </tr>
-        </table>
-        <input type="submit" value="Обновить" />
+      {% csrf_token %}
+      <table>
+        <tr>
+          <td>Специальность: </td>
+          <td>{{ form.specialty }}</td>
+        </tr>
+        <tr>
+          <td>Выезд к клиенту: </td>
+          <td>{{ form.departure_to_client }}</td>
+        </tr>
+        <tr>
+          <td>О себе: </td>
+          <td>{{ form.about }}</td>
+        </tr>
+      </table>
+      <input type="submit" value="Обновить" />
     </form>
+  </div>
 </div>
 {{form.errors}}
 {% endblock %}

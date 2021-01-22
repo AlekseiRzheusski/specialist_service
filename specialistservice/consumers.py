@@ -31,7 +31,7 @@ class ChatConsumer(WebsocketConsumer):
             username=data['author']), content=data['content'], private_room=PrivateRoom.objects.get(room_name=data['room_name']))
         message.save()
         notification = Notification(
-            Message=message, user=User.objects.get(id=data['recipient_id']))
+            message=message, user=User.objects.get(id=data['recipient_id']))
         notification.save()
         content = self.message_to_json(message)
         print(message.author.username + message.content)

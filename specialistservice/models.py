@@ -100,5 +100,5 @@ class Message(models.Model):
 
 
 class Notification(models.Model):
-    Message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
