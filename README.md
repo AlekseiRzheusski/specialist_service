@@ -9,10 +9,10 @@ to find an appropriate employee.
 3. Django channels - project that can handle WebSocket, chat protocols, IoT protocols
 and more in Django
 
-##Databases
+## Databases
 For this project i'm using MySql to store models. For working with it i use django ORM.
 
-##Installation
+## Installation
 1. Clone repository (dev branch)
 2. Change directory to project folder
 3. Build images with docker-compose 'docker-compose build'
