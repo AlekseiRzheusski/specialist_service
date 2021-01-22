@@ -11,10 +11,10 @@ class CustomUserAdmin(UserAdmin):
     model = User
     add_form = CustomUserCreationForm
     fieldsets = (
-        *UserAdmin.fieldsets,(
+        *UserAdmin.fieldsets, (
             'Additional info',
             {
-                'fields':(
+                'fields': (
                     'phone',
                     'city',
                     'street',
@@ -26,6 +26,7 @@ class CustomUserAdmin(UserAdmin):
             }
         )
     )
+
 
 admin.site.register(City)
 admin.site.register(Specialty)

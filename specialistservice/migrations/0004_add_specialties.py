@@ -2,6 +2,7 @@
 
 from django.db import migrations
 
+
 def forwards_func(apps, schema_editor):
     db_alias = schema_editor.connection.alias
 
@@ -13,15 +14,15 @@ def forwards_func(apps, schema_editor):
          Specialty(name="Бухгалтер")]
     )
 
+
 def reverse_func(apps, schema_editor):
     db_alias = schema_editor.connection.alias
 
     Specialty = apps.get_model("specialistservice", "Specialty")
 
-    Specialty.objects.using(db_alias).filter(name = 'Сантехник').delete()
-    Specialty.objects.using(db_alias).filter(name = 'Программист').delete()
-    Specialty.objects.using(db_alias).filter(name = 'Бухгалтер').delete()
-
+    Specialty.objects.using(db_alias).filter(name='Сантехник').delete()
+    Specialty.objects.using(db_alias).filter(name='Программист').delete()
+    Specialty.objects.using(db_alias).filter(name='Бухгалтер').delete()
 
 
 class Migration(migrations.Migration):
@@ -30,6 +31,6 @@ class Migration(migrations.Migration):
         ('specialistservice', '0003_add_cities'),
     ]
 
-    operations = [    
+    operations = [
         migrations.RunPython(forwards_func, reverse_func)
     ]
