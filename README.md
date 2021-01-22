@@ -4,9 +4,9 @@ That service can be used by both specialist for posting resume and by ordinary u
 to find an appropriate employee.
 
 ## Frameworks and packages
-1. Django - framework for web-application development
-2. Geopy - python client for geocoding services
-3. Django channels - project that can handle WebSocket, chat protocols, IoT protocols
+* Django - framework for web-application development
+* Geopy - python client for geocoding services
+* Django channels - project that can handle WebSocket, chat protocols, IoT protocols
 and more in Django
 
 ## Databases
