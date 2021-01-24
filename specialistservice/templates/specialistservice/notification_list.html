@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+{% if notification_list %}
+<ul>
+
+  {% for tmp_notification in notification_list %}
+  <li>
+    Пользователь <a href="{{ tmp_notification.message.author.get_absolute_url }}">
+      {{ tmp_notification.message.author.username }}</a> оставил сообщение (
+    <a href="{% url 'room_search' username=tmp_notification.message.author.username %}"> Посмотреть</a>, <a
+      href="{% url 'delete-notification' pk=tmp_notification.id %}">Удалить</a>)
+  </li>
+  {% endfor %}
+
+</ul>
+
+{% else %}
+<p>У вас нет уведомлений</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base_generic.html" %}   
+
+{% block content %}
+<style>
+    button {
+        font-size: 18px;
+        border: none;
+        outline: 0;
+        display: inline-block;
+        padding: 8px;
+        color: black;
+        background-color: white;
+        text-align: center;
+        cursor: pointer;
+        width: 100%;
+        font-size: 18px;
+    }
+    button:hover, a:hover {
+        background-color: grey;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <img src="https://cdn.iz.ru/sites/default/files/styles/900x506/public/news-2019-09/Depositphotos_22928632_xl-2015_1.jpg?itok=wEw6IIH3" alt="Bear" align = "center" style="width:100%">
+        <br>
+        <h3 align = "center">Добро пожаловать на сайт поиска специалистов</h3>
+        <br>
+        <form action="{% url 'specialists' %}">
+            <p><button>Поиск специалистов</button></p>
+        </form>
+      </div>
+      
+      <!-- END MAIN -->
+      </div>
+</body>
+{% endblock %}

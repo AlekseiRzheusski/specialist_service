@@ -1,0 +1,51 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+
+
+<br>
+<div class="container">
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h3 style="text-align: center">{{ user.first_name }}</h3>
+            <hr>
+            <h3 style="text-align: center">{{ user.last_name }}</h3>
+      <img class="profile-pic" src="{{user.profile_pic.url}}" >
+      <hr>
+
+		
+		</div>
+	</div>
+  <div>
+        <table>       
+              <tr>
+                <td>Email: </td>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <td>Телефон: </td>
+                <td>{{ user.phone }}</td>
+              </tr>
+              <tr>
+                <td>Адрес: </td>
+                <td>{{ user.street }} {{ user.house }}, город {{ user.city }}</td>
+              </tr>
+        </table>
+  </div>
+
+
+
+
+{{form.errors}}
+{{ form.non_field_errors }}
+{% endblock %}

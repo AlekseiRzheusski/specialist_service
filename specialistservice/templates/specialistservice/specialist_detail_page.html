@@ -1,0 +1,128 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+
+
+<br>
+<div class="container">
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<h3 style="text-align: center">{{ specialist.person.first_name }}</h3>
+            <hr>
+            <h3 style="text-align: center">{{ specialist.person.last_name }}</h3>
+      <img class="profile-pic" src="{{specialist.person.profile_pic.url}}" >
+      <hr>
+
+		
+		</div>
+	</div>
+  <div>
+        <table>
+              <tr>
+                <td>Email: </td>
+                <td>{{ specialist.person.email }}</td>
+              </tr>
+              <tr>
+                <td>Телефон: </td>
+                <td>{{ specialist.person.phone }}</td>
+              </tr>
+              <tr>
+                <td>Адрес: </td>
+                <td>{{ specialist.person.street }} {{ specialist.person.house }}, город {{ specialist.person.city }}</td>
+              </tr>
+              <tr>
+                <td>Специальность:</td>
+                <td>{{ specialist.specialty }}</td>
+              </tr>
+              <tr>
+                <td>Расстояние</td>
+                <td>{{ distance }} км</td>
+              </tr>
+              <tr>
+                {% if specialist.departure_to_client == True %}
+                  <td>Возможен выезд к клиенту</td>
+                {% endif %}
+              </tr>
+        </table>
+    <div>
+        <hr>
+        <h3>О себе</h3>
+        <Br>
+        <textarea readonly="readonly" style="width: 460px;" rows="10">{{ specialist.about }}</textarea>
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+        {% if user.id != specialist.person.id %}
+          <a href="{% url 'add-request' pk=specialist.id %}">Оставить заявку</a>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div>
+      {% if user.is_authenticated %}
+        {% if user.id != specialist.person.id %}
+          <a href="{% url 'room_search' username=specialist.person.username %}">Написать сообщение</a>
+        {% endif %}
+      {% endif %}
+    </div>
+    <br>
+        <div>
+          {{ map|safe }}
+        </div>
+    </br>
+    <hr>
+
+
+</div>
+</div>
+<div class="row">
+  {% if user.is_authenticated %}
+  {% if user.id == specialist.person.id %}
+  <h3>{{ form }}</h3>
+  {% else %}
+  <div>
+    <form method="POST">
+        {% csrf_token %}
+            <table>
+                <tr>
+                    <td>{{ form.comment }}</td>
+                    <td><input type="submit" value="Оставить комментарий" /></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    {% endif %}
+    {% else %}
+    <h3>{{ form }}</h3>
+    {% endif %}
+</div>
+<div class="row">
+    <table>
+    
+        {% for comment in specialist.comment_set.all %}
+        <tr>
+    
+            <td><h5>{{comment.user.username}}:</h5></td>
+            <td>{{ comment.comment }}</td>     
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+</div>
+
+
+
+
+{{form.errors}}
+{{ form.non_field_errors }}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if user_list %}
+    <ul>
+
+      {% for tmp_user in user_list %}
+      <li>
+          {{ tmp_user.username }} (<a href="{% url 'room_search' username=tmp_user.username %}"> Посмотреть</a>)
+      </li>
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+      <p>У вас нет диалогов</p>
+    {% endif %}       
+{% endblock %}

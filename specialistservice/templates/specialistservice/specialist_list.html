@@ -1,0 +1,78 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<style>
+	.profile-pic{
+		max-width: 300px;
+        max-height: 300px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+
+    .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    margin: auto;
+    text-align: center;
+    }
+
+    .title {
+    color: grey;
+    font-size: 18px;
+    }
+
+    button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    }
+
+    a {
+    text-decoration: none;
+    font-size: 22px;
+    color: black;
+    }
+
+    button:hover, a:hover {
+    opacity: 0.7;
+    }
+
+</style>
+
+    <h1>Специалисты</h1>
+    <div class="card">
+
+    {% if specialist_list %}
+    <table>
+        {% for specialist in specialist_list %}
+        <tr>
+            <div class="card">
+                <img src="{{specialist.person.profile_pic.url}}" style="width:100%">
+                <h1>{{ specialist.person.first_name }} {{ specialist.person.last_name }}</h1>
+                <p class="title">{{ specialist.specialty }}</p>
+                <p>{{ specialist.person.street }} {{ specialist.person.house }}, город {{ specialist.person.city }}</p>
+                <p><textarea readonly="readonly" style="width: 100%;" rows="8">{{ specialist.about }}</textarea></p>
+                <form action="{{ specialist.get_absolute_url }}">
+                    <p><button>Посмотреть</button></p>
+                </form>
+              </div>              
+        </tr>
+        <hr>
+        {% endfor %}
+
+    </table>
+</div>
+
+
+    {% else %}
+      <p>Пока нет ни одного специалиста</p>
+    {% endif %}       
+{% endblock %}
